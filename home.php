@@ -24,7 +24,9 @@ $userRow=mysqli_fetch_array($res, MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
+     <script src="http://code.jquery.com/jquery-migrate-1.1.0.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     
@@ -170,7 +172,7 @@ $displayquery = 'select name, city,zip, address,tel,web, image from location whe
            foreach ($row as $result) {
             ?>
            
-<div class="card col-6" >
+<div class="card col-5" >
   <br><a name="sightseeing"></a>
 <img class="card-img-top" src="uploads/<?php echo $result['image']; ?>" height="200px" width="100px" style="object-fit:cover">
   
@@ -198,7 +200,7 @@ $displayquery = 'select name, price, locdate ,web, image from location where typ
            foreach ($row as $result) {
             ?>
            
-<div class="card col-6" >
+<div class="card col-5" >
 <br><a name="concert"></a>
 <img class="card-img-top" src="uploads/<?php echo $result['image']; ?>" height="200px" width="100px" style="object-fit:cover">
   
