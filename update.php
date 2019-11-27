@@ -1,25 +1,82 @@
 <?php 
-ob_start();
+// ob_start();
 session_start();
-require_once 'actions/db_connect.php';
+require_once 'dbconnect.php';
 
-if(!isset($_SESSION["admin"])){
+if(!isset($_SESSION["admin"])) {
   header("Location: login.php");
 }
+$id = $_GET['id'];
+echo $id;
 
-if(isset($_SESSION["user"])){
-  header("Location: home.php");
+if(isset($_POST["submit"])) {
+   
+   $name = $_POST['name'];
+   $type =$_POST['type'];
+   $city =$_POST['city'];
+   $zip =$_POST['zip'];
+   $add =$_POST['address'];
+   $tel =$_POST['tel'];
+   $web =$_POST['web'];
+   $style =$_POST['style'];
+   $price =$_POST['price'];
+   $locdate =$_POST['locdate'];
 }
 if ($_GET['id']) {
    $id = $_GET['id'];
 
    $sql = "SELECT * FROM location WHERE id = {$id}" ;
-   $result = $connect->query($sql);
+ 
+   $result = $conn->query($sql);
 
    $data = $result->fetch_assoc();
 
-   $connect->close();
+   }
+//Check that we have a file and i don't have any error
+if((!empty($_FILES["file"])) && ($_FILES['file']['error'] == 0)) {
+  //Check if the file is JPEG image and it's size is less than 350Kb
+  $filename = basename($_FILES['file']['name']);
+  $ext = substr($filename, strrpos($filename, '.') + 1);
 
+  if (($ext == "jpg") && ($_FILES["file"]["type"] == "image/jpeg") && 
+  ($_FILES["file"]["size"] < 35000000)) {
+    //Determine the path to which we want to save this file
+    $newnameoftheimage = basename($_FILES['file']['name']);
+    $filename = dirname(FILE).'/uploads/'.$filename;
+    // !!!  "uploads" is a folder inside of the main folder
+    //Check if the file with the same name is already exists on the server
+    if (!file_exists($filename)) {
+      //Attempt to move the uploaded file to it's new place
+      if ((move_uploaded_file($_FILES['file']['tmp_name'],$filename))) {
+
+
+                 
+            
+        $sql = "UPDATE location SET 
+        name = '$name', 
+        image = '$newnameoftheimage', 
+        type = '$type', 
+        city = '$city', 
+        zip = '$zip', 
+        address = '$add', 
+        tel = '$tel',
+        web = '$web',
+        style = '$style',
+        price = '$price',
+        locdate = '$locdate' WHERE id= {$id}" ;
+
+        if($conn->query($sql) === TRUE) {
+          echo  "<p>Successfully Updated</p>";
+          echo "<a href='update.php?id=" .$id."'><button type='button'>Back</button></a>";
+          echo  "<a href='index.php'><button type='button'>Home</button></a>";
+        } else {
+          echo "Error while updating record : ". $conn->error;
+        }
+      }
+    }
+    $conn->close();
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +146,7 @@ if ($_GET['id']) {
       <button  type="sumbit" class="btn btn-info">save change</button>
       <a href="index.php" class="btn btn-info">back</a>
 
-          </div>
+      </div>
   
   </form>
 
@@ -101,7 +158,3 @@ if ($_GET['id']) {
 
 </body >
 </html >
-
-<?php
-}
-?> 

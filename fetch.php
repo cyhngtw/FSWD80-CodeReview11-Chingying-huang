@@ -1,9 +1,9 @@
 <?php
-$connect = mysqli_connect("localhost", "root", "", "cr11_ching_travelmatic");
+$conn = mysqli_connect("localhost", "root", "", "cr11_ching_travelmatic");
 $output = '';
 if(isset($_POST["query"]))
 {
-	$search = mysqli_real_escape_string($connect, $_POST["query"]);
+	$search = mysqli_real_escape_string($conn, $_POST["query"]);
 	$query = "
 	SELECT * FROM location 
 	WHERE type LIKE '%".$search."%'
@@ -19,7 +19,7 @@ else
 	$query = "
 	SELECT * FROM location ORDER BY id";
 }
-$result = mysqli_query($connect, $query);
+$result = mysqli_query($conn, $query);
 if(mysqli_num_rows($result) > 0)
 {
 	$output .= '<div class="table-responsive">

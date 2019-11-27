@@ -1,6 +1,6 @@
 <?php
 // this will avoid mysql_connect() deprecation error.
-error_reporting( ~E_DEPRECATED & ~E_NOTICE );
+error_reporting(E_ERROR | E_PARSE);
 
 $DBHOST = "localhost";
 define('DBUSER', 'root');

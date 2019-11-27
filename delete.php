@@ -1,23 +1,23 @@
 <?php 
-ob_start();
+// ob_start();
 session_start();
-require_once 'actions/db_connect.php';
+require_once 'dbconnect.php';
 
-f(!isset($_SESSION["admin"])){
-  header("Location: login.php");
-}
+// f(!isset($_SESSION["admin"])){
+//   header("Location: login.php");
+// }
 
-if(isset($_SESSION["user"])){
-  header("Location: home.php");
-}
+// if(isset($_SESSION["user"])){
+//   header("Location: home.php");
+// }
 if ($_GET['id']) {
    $id = $_GET['id'];
 
    $sql = "SELECT * FROM location WHERE id = {$id}" ;
-   $result = $connect->query($sql);
+   $result = $conn->query($sql);
    $data = $result->fetch_assoc();
 
-   $connect->close();
+   $conn->close();
 ?>
 
 <!DOCTYPE html>

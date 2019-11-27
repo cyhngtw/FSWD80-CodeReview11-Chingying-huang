@@ -2,28 +2,28 @@
 
 ob_start();
 session_start();
-require_once 'dbconnect.php';
+require_once '../dbconnect.php';
 
 if(!isset($_SESSION["admin"])){
-  header("Location: login.php");
+  header("Location: ../login.php");
 }
 
 if(isset($_SESSION["user"])){
-  header("Location: home.php");
+  header("Location:../home.php");
 }
 
 if ($_POST) {
    $id = $_POST['id'];
 
    $sql = "DELETE FROM location WHERE id = {$id}";
-    if($connect->query($sql) === TRUE) {
+    if($conn->query($sql) === TRUE) {
        echo "<p>Successfully deleted!!</p>" ;
        echo "<a href='../index.php'><button type='button'>Back</button></a>";
    } else {
-       echo "Error updating record : " . $connect->error;
+       echo "Error updating record : " . $conn->error;
    }
 
-   $connect->close();
+   $conn->close();
 }
 
 ?>

@@ -23,7 +23,9 @@ $userRow=mysqli_fetch_array($res, MYSQLI_ASSOC);
 	 <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     
 
@@ -37,49 +39,50 @@ $userRow=mysqli_fetch_array($res, MYSQLI_ASSOC);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
-    <link href="signin.css" rel="stylesheet">
+    <!-- awsonfont -->
+    <script src="https://kit.fontawesome.com/473562d7d7.js" crossorigin="anonymous"></script>
 
 </head>
-<body >
-  <div class="col-12 border-1 " >
-     <img src="blog/uploads/background.jpg" height="200px" class=" w-100">
-   </div><!-- /header -->
-
-         
-
+<body>
 <!-- nav start-->
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light bg-light fixed-top ">
   <ul class="nav  nav-tabs pt-2">
         
         <li class="nav-item text-muted">
-          <a class="nav-link" href="logout.php?logout">Sign Out</a>
+          <a class="nav-link text-dark" href="logout.php?logout"><i class="fas fa-user-check"></i>Sign Out</a>
         </li>
         <li class="nav-item navbar-light">
           <a class="nav-link active" href="#">Restaurants</a>
         </li>
         <li class="nav-item text-muted">
-          <a class="nav-link" href="#sightseeing">Sightseeing</a>
+          <a class="nav-link text-dark" href="#sightseeing">Sightseeing</a>
         </li>
         <li class="nav-item text-muted">
-          <a class="nav-link" href="#concert">Concert</a>
+          <a class="nav-link text-dark" href="#concert">Concert</a>
         </li>
 
   </ul>
 
-  <form class="form-inline">
-    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"  name="search_text" id="search_text">
-    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+  <form class="form-inline border-1 ">
+    <input class="form-control " type="text" placeholder="Search" aria-label="Search"  name="search_text" id="search_text">
+    <button class="btn btn-outline-dark my-2"  type="submit">Search</button>
   </form>
   <div id="result"></div>
   <div style="clear:both"></div>
 </nav>
 <!-- nav end-->
+  <div class="col-12 border-1 " >
+     <img src="uploads/background.jpg" height="300px" class=" w-100">
+   </div><!-- /header -->
+
+         
+
+
 <h4>Hi <?php echo $userRow['userName']; ?></h4>
 
-<div class="container d-flex ">
+<div class="container">
 
-<div class="row">
+<div class="row d-flex justify-content-between">
         
    
     <?php
@@ -126,28 +129,28 @@ $userRow=mysqli_fetch_array($res, MYSQLI_ASSOC);
            $destinationfile = 'blog/uploads/'.$filename;
            move_uploaded_file($filetmp,$destinationfile);
 
-         $sql = "INSERT INTO location (id,  file, type, city, zip, address, tel, web, style, price, locdate ) VALUES ('$id', '$filename', '$type', '$city','$zip','$add','$tel','$web','$style','$price','$locdate')";
+         $sql = "INSERT INTO location (id,  image, type, city, zip, address, tel, web, style, price, locdate ) VALUES ('$id', '$filename', '$type', '$city','$zip','$add','$tel','$web','$style','$price','$locdate')";
 
 
            $query = mysqli_query($con, $sql);
          }
        }
      // concert restaurant
-           $displayquery = 'select name, city,zip, address,tel,web, style from location where type = "restaurant" ' ;
+           $displayquery = 'select id,name, city,zip, address,tel,web, style,image from location where type = "restaurant" ' ;
            $querydisplay = mysqli_query($con, $displayquery );
 
            $row = $querydisplay->fetch_all(MYSQLI_ASSOC);
            foreach ($row as $result) {
             ?>
            
-<div class="card col-6" >
+<div class="card col-5" >
 <img class="card-img-top" src="uploads/<?php echo $result['image']; ?>" height="200px" width="100px" style="object-fit:cover">
   
   <div class="card-body">
     <h4 class="card-title"><?php echo $result['name']; ?></h4>
     <p class="card-text"><?php echo $result['city']; ?></p>
     <p class="card-text"><?php echo $result['zip']; ?></p>
-    <p class="card-text"><?php echo $result['address']; ?></p>
+    <p class="card-text" ><a href="google.php?address=<?php echo $result['address']; ?>"><?php echo $result['address']; ?></a></p>
     <p class="card-text"><?php echo $result['tel']; ?></p>
     <p class="card-text"><?php echo $result['web']; ?></p>
     <p class="card-text"><?php echo $result['style']; ?></p>
@@ -160,7 +163,7 @@ $userRow=mysqli_fetch_array($res, MYSQLI_ASSOC);
 }
 
 // concert sightseeing
-$displayquery = 'select name, city,zip, address,tel,web from location where type = "sightseeing" ' ;
+$displayquery = 'select name, city,zip, address,tel,web, image from location where type = "sightseeing" ' ;
            $querydisplay = mysqli_query($con, $displayquery );
 
            $row = $querydisplay->fetch_all(MYSQLI_ASSOC);
@@ -169,13 +172,13 @@ $displayquery = 'select name, city,zip, address,tel,web from location where type
            
 <div class="card col-6" >
   <br><a name="sightseeing"></a>
-<img class="card-img-top" src="blog/uploads<?php echo $result['image']; ?>" height="200px" width="100px" style="object-fit:cover">
+<img class="card-img-top" src="uploads/<?php echo $result['image']; ?>" height="200px" width="100px" style="object-fit:cover">
   
   <div class="card-body">
     <h4 class="card-title"><?php echo $result['name']; ?></h4>
     <p class="card-text"><?php echo $result['city']; ?></p>
     <p class="card-text"><?php echo $result['zip']; ?></p>
-    <p class="card-text"  id="map"><?php echo $result['address']; ?></p>
+    <p class="card-text"><a href="google.php?address=<?php echo $result['address']; ?>"><?php echo $result['address']; ?></a></p>
     <p class="card-text"><?php echo $result['tel']; ?></p>
     <p class="card-text"><?php echo $result['web']; ?></p>
     
@@ -188,7 +191,7 @@ $displayquery = 'select name, city,zip, address,tel,web from location where type
 
 
 // concert start
-$displayquery = 'select name, price, locdate ,web from location where type = "concert" ' ;
+$displayquery = 'select name, price, locdate ,web, image from location where type = "concert" ' ;
            $querydisplay = mysqli_query($con, $displayquery );
 
            $row = $querydisplay->fetch_all(MYSQLI_ASSOC);
@@ -197,7 +200,7 @@ $displayquery = 'select name, price, locdate ,web from location where type = "co
            
 <div class="card col-6" >
 <br><a name="concert"></a>
-<img class="card-img-top" src="blog/uploads<?php echo $result['image']; ?>" height="200px" width="100px" style="object-fit:cover">
+<img class="card-img-top" src="uploads/<?php echo $result['image']; ?>" height="200px" width="100px" style="object-fit:cover">
   
   <div class="card-body">
     <h4 class="card-title"><?php echo $result['name']; ?></h4>

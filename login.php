@@ -8,7 +8,7 @@ if(isset($_SESSION["user"])){
   header("Location: home.php");
 }
 if(isset($_SESSION["admin"])){
-  header("Location: adminpanel.php");
+  header("Location: index.php");
 }
 
 $error = false;
@@ -53,7 +53,7 @@ if( isset($_POST['btn-login']) ) {
   if( $count == 1 && $row['userPass']==$password ) {
     if($row["role"] == "admin"){
       $_SESSION["admin"]= $row["userId"];
-      header("Location: adminpanel.php");
+      header("Location: index.php");
       exit;
     } else{
       $_SESSION['user'] = $row['userId'];
@@ -78,7 +78,7 @@ if( isset($_POST['btn-login']) ) {
 </head>
 <body>
   <div class="col-12 border-1 " >
-     <img src="blog/uploads/background.jpg" height="200px" class=" w-100">
+     <img src="uploads/background.jpg" height="200px" class=" w-100">
    </div><!-- /header -->
 
 
@@ -87,8 +87,7 @@ if( isset($_POST['btn-login']) ) {
  
    
       <br>
-      <h4 class="h4 mb-3 font-weight-normal text-center pt-2 bg-primary text-white">Registration
-      </h4>
+      
            
          
      <?php
